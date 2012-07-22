@@ -50,7 +50,7 @@ class PCIENetWorker(QtCore.QThread):
             data = np.array(data).astype(float) / response.framecount
             response.data = data
             self.measured.emit(response)
-            print data[0:30]
+            #print data[0:30]
             
     
     def stop(self):
