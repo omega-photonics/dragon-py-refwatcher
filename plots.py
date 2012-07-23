@@ -12,6 +12,7 @@ class Plot(Qwt.QwtPlot):
     colors = [Qt.Qt.black, Qt.Qt.red, Qt.Qt.darkGray, Qt.Qt.darkRed]
     def __init__(self, rect, parent=None, zeroed=False, levels=[0], points=False, ncurves=1):
         Qwt.QwtPlot.__init__(self, parent)
+        self.setAxisScale(Qwt.QwtPlot.yLeft, SIGNAL_BOT, SIGNAL_TOP)
         self.curves = []
         if ncurves == len(levels):
             self.levels = levels

@@ -9,7 +9,7 @@ import numpy as np
 np.set_printoptions(precision=1)
 
 HOST = "localhost"
-#HOST = '192.168.1.223'    # The remote host
+#HOST = '192.168.2.5'    # The remote host
 PCIEPORT = 32120
 
 
