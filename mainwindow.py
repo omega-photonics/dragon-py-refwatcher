@@ -12,7 +12,7 @@ class MainWindow(Base, Form):
         self.pcieWidget = DragonWidget()
         self.settings.addWidget(self.pcieWidget, 0, 0, 1, 1)
         
-        self.dragonplot = plots.Plot(QtCore.QRectF(0, plots.SIGNAL_BOT, 8*6144, plots.SIGNAL_TOP - plots.SIGNAL_BOT), self)
+        self.dragonplot = plots.Plot(QtCore.QRectF(0, plots.SIGNAL_BOT, 65520, plots.SIGNAL_TOP - plots.SIGNAL_BOT), self)
         self.plots.addWidget(self.dragonplot, 1, 1)
         
         #self.precollector = Precollector(self)
@@ -74,8 +74,8 @@ class DragonWidget(DragomBase, DragonForm):
     
     def selfCorrect(self):
         val = self.framelength.value()
-        if val % 6 != 0:
-            self.framelength.setValue(val // 6 * 6)
+        if val % 8 != 0:
+            self.framelength.setValue(val // 8 * 8)
         
     def value(self):
         return pciedevsettings.PCIESettings(
