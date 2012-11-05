@@ -33,6 +33,7 @@ class Plot(Qwt.QwtPlot):
 
     def setRect(self, rect):
         self.setAxisScale(Qwt.QwtPlot.yLeft, rect.top(), rect.bottom())
+        self.setAxisScale(Qwt.QwtPlot.xBottom, rect.left(), rect.right())
         self.zoom = Qwt.QwtPlotZoomer(Qwt.QwtPlot.xBottom,
                                       Qwt.QwtPlot.yLeft,
                                       self.canvas())
