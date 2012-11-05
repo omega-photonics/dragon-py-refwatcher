@@ -12,13 +12,14 @@ class Plot(Qwt.QwtPlot):
     colors = [Qt.Qt.black, Qt.Qt.red, Qt.Qt.darkGray, Qt.Qt.darkRed]
     def __init__(self, rect, parent=None, zeroed=False, levels=[0], points=False, ncurves=1):
         Qwt.QwtPlot.__init__(self, parent)
-        self.setAxisScale(Qwt.QwtPlot.yLeft, SIGNAL_BOT, SIGNAL_TOP)
+        self.setRect(rect)
+        self.zeroed = zeroed
         self.curves = []
         if ncurves == len(levels):
             self.levels = levels
         else:
             self.levels = [0] * ncurves
-            
+
         for i in range(ncurves):
             curve = Qwt.QwtPlotCurve()
             curve.attach(self)
@@ -29,12 +30,14 @@ class Plot(Qwt.QwtPlot):
                 curve.setSymbol(Qwt.QwtSymbol(Qwt.QwtSymbol.Ellipse, Plot.colors[i],
                     QtGui.QPen(Plot.colors[i]), Qt.QSize(3,3)))
             self.curves.append(curve)
+
+    def setRect(self, rect):
+        self.setAxisScale(Qwt.QwtPlot.yLeft, rect.top(), rect.bottom())
         self.zoom = Qwt.QwtPlotZoomer(Qwt.QwtPlot.xBottom,
-                                Qwt.QwtPlot.yLeft,            
-                                self.canvas())
+                                      Qwt.QwtPlot.yLeft,
+                                      self.canvas())
         self.zoom.setZoomBase(rect)
-        self.zeroed = zeroed
-        
+
     def myplot(self, data, n=0):
 
         if type(data) is Curve:
@@ -61,7 +64,7 @@ class TempPlot(Qwt.QwtPlot):
         for i, col in enumerate([Qt.Qt.black, Qt.Qt.blue]):
             self.curves[i].setPen(QtGui.QPen(col))
         self.zoom = Qwt.QwtPlotZoomer(Qwt.QwtPlot.xBottom,
-                                      Qwt.QwtPlot.yLeft,            
+                                      Qwt.QwtPlot.yLeft,
                                       self.canvas())
         self.zoom.setZoomBase(QtCore.QRectF(0, 0, 65535, 1000))
     def myplot(self, data, n):
@@ -81,19 +84,19 @@ class TempPlot(Qwt.QwtPlot):
             self.setAxisAutoScale(Qwt.QwtPlot.xBottom)
             #self.setAxisAutoScale(Qwt.QwtPlot.yLeft)
             self.replot()
-        
-        
+
+
 
 class SlicePlot(Qwt.QwtPlot):
     colors = [Qt.Qt.red, Qt.QColor(100,100,100), Qt.Qt.black] * 2
-                  
+
     def __init__(self, parent=None):
         Qwt.QwtPlot.__init__(self, parent)
         self.curve = Qwt.QwtPlotCurve('')
         self.curve.attach(self)
         #self.curve.setPen(QtGui.QPen())
         self.zoom = Qwt.QwtPlotZoomer(Qwt.QwtPlot.xBottom,
-                                      Qwt.QwtPlot.yLeft,            
+                                      Qwt.QwtPlot.yLeft,
                                       self.canvas())
         self.zoom.setZoomBase(QtCore.QRectF(-1000, SIGNAL_BOT, 2*65535+2000, SIGNAL_TOP - SIGNAL_BOT))
         self.curve.setStyle(Qwt.QwtPlotCurve.NoCurve)
@@ -105,19 +108,19 @@ class SlicePlot(Qwt.QwtPlot):
         self.downcurves = []
         self.updatacurves = []
         self.downdatacurves = []
-        
+
     def setChannel(self, val):
         self.channel = val
         self.myplot()
     def setData(self, data):
         self.updatacurves, self.downdatacurves = data[0], data[1]
         self.myplot()
-    
+
     def myplot(self):
         ndatacurves = len(self.upcurves) + len(self.downcurves)
         #print len(self.upcurves), "UpCurves,", len(self.downcurves), "DownCurves"
         #print len(self.updatacurves), "UpDataCurves,", len(self.downdatacurves), "DownDataCurves"
-        
+
         for curves, datacurves in \
             [(self.upcurves, self.updatacurves),
              (self.downcurves, self.downdatacurves)]:
@@ -130,9 +133,9 @@ class SlicePlot(Qwt.QwtPlot):
                         QtGui.QPen(color), Qt.QSize(3,3)))
             for i, datacurve in enumerate(datacurves):
                 curves[i].setData(datacurve.x, datacurve.y[self.channel])
-        
-        self.replot()        
-    
+
+        self.replot()
+
     def clear(self):
         self.detachItems()
         self.upcurves = []

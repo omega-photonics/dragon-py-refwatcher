@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>184</width>
+    <width>241</width>
     <height>488</height>
    </rect>
   </property>
@@ -49,13 +49,6 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>ch1 shift</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="1">
        <widget class="QSpinBox" name="ch1shift">
         <property name="maximum">
@@ -63,6 +56,13 @@
         </property>
         <property name="value">
          <number>220</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>ch1 shift</string>
         </property>
        </widget>
       </item>
@@ -107,6 +107,13 @@
         </property>
        </widget>
       </item>
+      <item row="8" column="0">
+       <widget class="QRadioButton" name="is8bits">
+        <property name="text">
+         <string>8 bit</string>
+        </property>
+       </widget>
+      </item>
       <item row="4" column="1">
        <widget class="QSpinBox" name="ch1count">
         <property name="value">
@@ -128,16 +135,6 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="label_8">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string>Frame length</string>
-        </property>
-       </widget>
-      </item>
       <item row="6" column="1">
        <widget class="QSpinBox" name="framelength">
         <property name="enabled">
@@ -154,6 +151,16 @@
         </property>
         <property name="value">
          <number>65520</number>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_8">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Frame length</string>
         </property>
        </widget>
       </item>
@@ -177,6 +184,13 @@
         </property>
         <property name="value">
          <number>1024</number>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QRadioButton" name="is12bits">
+        <property name="text">
+         <string>12 bit</string>
         </property>
        </widget>
       </item>
