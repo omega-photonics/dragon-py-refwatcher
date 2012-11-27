@@ -12,7 +12,6 @@ class Plot(Qwt.QwtPlot):
     colors = [Qt.Qt.black, Qt.Qt.red, Qt.Qt.darkGray, Qt.Qt.darkRed]
     def __init__(self, rect, parent=None, zeroed=False, levels=[0], points=False, ncurves=1):
         Qwt.QwtPlot.__init__(self, parent)
-        self.setRect(rect)
         self.zeroed = zeroed
         self.curves = []
         if ncurves == len(levels):
@@ -30,14 +29,15 @@ class Plot(Qwt.QwtPlot):
                 curve.setSymbol(Qwt.QwtSymbol(Qwt.QwtSymbol.Ellipse, Plot.colors[i],
                     QtGui.QPen(Plot.colors[i]), Qt.QSize(3,3)))
             self.curves.append(curve)
+        self.zoom = Qwt.QwtPlotZoomer(Qwt.QwtPlot.xBottom,
+                                      Qwt.QwtPlot.yLeft,
+                                      self.canvas())
+        self.setRect(rect)
 
     def setRect(self, rect):
         self.setAxisScale(Qwt.QwtPlot.yLeft, rect.top(), rect.bottom())
         self.setAxisScale(Qwt.QwtPlot.xBottom, rect.left(), rect.right())
-        self.zoom = Qwt.QwtPlotZoomer(Qwt.QwtPlot.xBottom,
-                                      Qwt.QwtPlot.yLeft,
-                                      self.canvas())
-        self.zoom.setZoomBase(rect)
+        self.zoom.setZoomBase()
 
     def myplot(self, data, n=0):
 
