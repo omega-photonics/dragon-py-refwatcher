@@ -18,6 +18,7 @@ class MainWindow(Base, Form):
         self.plots.addWidget(self.dragonplot, 1, 1)
         self.pcieWidget.is8bits.setChecked(settings.bits == 8)
         self.pcieWidget.is12bits.setChecked(settings.bits == 12)
+        self.pcieWidget.ch1en.setChecked(True)
         if connect:
             self.pcieClient = pcie.PCIENetWorker()
             self.pcieClient.setPCIESettings(self.pcieWidget.value())
@@ -29,7 +30,6 @@ class MainWindow(Base, Form):
         self.plotsFreezed = False
         self.pcieWidget.is8bits.toggled.connect(
             lambda x: self.set_bits(8) if x else self.set_bits(12))
-
 
     def set_bits(self, value):
         self.settings.set_bits(value)
@@ -73,7 +73,8 @@ class DragonWidget(DragomBase, DragonForm):
                         self.framelength, self.framecount]:
             widget.valueChanged.connect(self.rereadValue)
         self.framelength.editingFinished.connect(self.selfCorrect)
-
+        self.ch2en.toggled.connect(self.set_channel)
+        
     def selfCorrect(self):
         val = self.framelength.value()
         if val % 8 != 0:
@@ -88,7 +89,11 @@ class DragonWidget(DragomBase, DragonForm):
             ch2count = self.ch2count.value(),
             ch2shift = self.ch2shift.value(),
             framelength = self.framelength.value(),
-            framecount = self.framecount.value())
+            framecount = self.framecount.value(),
+            channel = self.ch2en.isChecked())
+
+    def set_channel(self, val):
+        self.rereadValue() 
 
     def rereadValue(self):
         val = self.value()

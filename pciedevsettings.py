@@ -1,14 +1,14 @@
 from collections import namedtuple
 from ctypes import *
 
-fs = "ch1amp ch1shift ch1count ch2amp ch2shift ch2count framelength framecount"
+fs = "ch1amp ch1shift ch1count ch2amp ch2shift ch2count framelength framecount channel"
 class PCIESettings(object):
     
     MaxFrameLenght = 65520 * sizeof(c_uint32)
     def __init__(self,
                  ch1amp, ch1shift, ch1count,
                  ch2amp, ch2shift, ch2count, 
-                 framelength, framecount):
+                 framelength, framecount, channel):
         self.ch1amp = ch1amp
         self.ch1shift = ch1shift
         self.ch1count = ch1count
@@ -17,6 +17,7 @@ class PCIESettings(object):
         self.ch2count = ch2count        
         self.framecount = framecount
         self.framelength = framelength
+        self.channel = channel
     
     @property
     def dacdata(self):

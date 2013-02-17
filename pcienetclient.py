@@ -33,13 +33,14 @@ class PCIENetWorker(QtCore.QThread):
     def run(self):
         response = pciedevsettings.PCIEResponse()
         while not self.exiting:
-            #response.activechannel = struct.unpack("B", self.socket.recvall(1))[0]
+            response.activechannel = struct.unpack("B", self.socket.recvall(1))[0]
             response.framelength = struct.unpack("H", self.socket.recvall(2))[0]
             response.framecount = struct.unpack("I", self.socket.recvall(4))[0]
             response.dacdata = struct.unpack("I", self.socket.recvall(4))[0]
             rawdata = self.socket.recvall(pciedevsettings.PCIESettings.MaxFrameLenght, timeout=5)
 
             self.lock.lock()
+            self.socket.sendall(struct.pack("B", self.settings.channel))
             self.socket.sendall(struct.pack("H", int(self.settings.framelength)))
             self.socket.sendall(struct.pack("I", self.settings.framecount))
             self.socket.sendall(struct.pack("I", self.settings.dacdata))
